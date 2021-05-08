@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: sealfury/client
+          image: us.gcr.io/ticketing-dev-313118/client
 ---
 apiVersion: v1
 kind: Service

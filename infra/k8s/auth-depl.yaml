@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: sealfury/auth
+          image: us.gcr.io/ticketing-dev-313118/auth
           env:
             - name: JWT_KEY
               valueFrom:
