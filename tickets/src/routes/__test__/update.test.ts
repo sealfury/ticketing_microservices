@@ -25,7 +25,27 @@ it('returns a 401 if the user is not authenticated', async () => {
     .expect(401)
 })
 
-it('returns a 401 if the user does not own the ticket', () => {})
+it('returns a 401 if the user does not own the ticket', async () => {
+  const response = await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signin())
+    .send({
+      title: 'concert',
+      price: 20,
+    })
+
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set('Cookie', global.signin())
+    .send({
+      title: 'match',
+      price: 30,
+    })
+    .expect(401)
+
+  expect(response.body.title).toEqual('concert')
+  expect(response.body.price).toEqual(20)
+})
 
 it('returns a 400 if the user provides an invalid title or price', () => {})
 
