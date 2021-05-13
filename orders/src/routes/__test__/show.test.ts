@@ -53,3 +53,6 @@ it("returns an error if a user tries to fetch a different user's order", async (
     .send()
     .expect(401)
 })
+
+it.todo('sad path not authorized')
+it.todo('sad path not found')
