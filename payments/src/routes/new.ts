@@ -10,6 +10,7 @@ import {
 } from '@gristix/common'
 import { stripe } from '../stripe'
 import { Order } from '../models/order'
+import { Payment } from '../models/payment'
 
 const router = express.Router()
 
@@ -17,14 +18,8 @@ router.post(
   '/api/payments',
   requireAuth,
   [
-    body('token')
-      .not()
-      .isEmpty()
-      .withMessage('Token must be provided'),
-    body('orderId')
-      .not()
-      .isEmpty()
-      .withMessage('Order ID must be provided'),
+    body('token').not().isEmpty().withMessage('Token must be provided'),
+    body('orderId').not().isEmpty().withMessage('Order ID must be provided'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
@@ -44,11 +39,16 @@ router.post(
       throw new BadRequestError('Cannot purchase a cancelled order')
     }
 
-    await stripe.charges.create({
+    const charge = await stripe.charges.create({
       currency: 'usd',
       amount: order.price * 100,
-      source: token
+      source: token,
     })
+    const payment = Payment.build({
+      orderId,
+      stripeId: charge.id,
+    })
+    await payment.save()
 
     res.status(201).send({ success: true })
   }
