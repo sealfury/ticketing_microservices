@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import useRequest from '../../hooks/use-request'
 
 const TicketShow = ({ ticket }) => {
@@ -5,17 +6,21 @@ const TicketShow = ({ ticket }) => {
     url: '/api/orders',
     method: 'post',
     body: {
-      ticketId: ticket.id
+      ticketId: ticket.id,
     },
-    onSuccess: (order) => console.log(order)
+    onSuccess: order => Router.push('/orders/[orderId]', `/orders/${order.id}`),
   })
 
-  return <div>
-    <h2>{ticket.title}</h2>
-    <h4>Price: ${ticket.price}</h4>
-    {errors}
-    <button onClick={makeRequest} className="btn btn-primary">Purchase</button>
-  </div>
+  return (
+    <div>
+      <h2>{ticket.title}</h2>
+      <h4>Price: ${ticket.price}</h4>
+      {errors}
+      <button onClick={makeRequest} className='btn btn-primary'>
+        Purchase
+      </button>
+    </div>
+  )
 }
 
 TicketShow.getInitialProps = async (context, client) => {

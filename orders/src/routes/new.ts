@@ -15,7 +15,7 @@ import { natsWrapper } from '../nats-wrapper'
 
 const router = express.Router()
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60
+const EXPIRATION_WINDOW_SECONDS = 1 * 60
 
 // NB route is subtly coupled to mongodb due to validation
 // Remove the custom function to remove this coupling
