@@ -33,7 +33,7 @@ const NewTicket = () => {
 
   return (
     <div>
-      <h1>Put A Ticket Up For Sale</h1>
+      <h1>Sell Your Ticket(s): </h1>
       <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label>Title</label>
